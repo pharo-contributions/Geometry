@@ -241,3 +241,12 @@ GAngleTest >> testTan [
 	angle := 0 degrees.
 	self assert: angle tan =~ 0
 ]
+
+{ #category : #tests }
+GAngleTest >> testVerySmallAngle [
+
+	self
+		assert: -2.220446049250313e-16 radians radians
+		equals: -2.220446049250313e-16 radians radians radians radians
+]
+
