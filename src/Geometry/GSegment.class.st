@@ -68,10 +68,31 @@ GSegment >> asGLine [
 
 { #category : #properties }
 GSegment >> distanceTo: aGPoint [
-	self flag: #todo.	"«The distance between segments and rays may not be the same as the distance between their extended lines. » http://geomalgorithms.com/a07-_distance.html
+
+	| vectSegment vectPoint t distance closestPoint|
+
+	"See:https://paulbourke.net/geometry/pointlineplane/
+	and: https://gist.github.com/mattdesl/47412d930dcd8cd765c871a65532ffac"
+
+	distance := SmallInteger maxVal.
 	
-	So apparently this implementation is wrong."
-	^ self asGLine distanceTo: aGPoint
+	"Vector from v1 to v2"
+	vectSegment := (v2 asPoint) - (v1 asPoint).
+	vectSegment isZero ifTrue:[ ^distance ].
+	"Vector from v1 to P"
+	vectPoint := (aGPoint asPoint) - (v1 asPoint).
+	t := (vectSegment dotProduct: vectPoint) / (vectSegment dotProduct: vectSegment).
+	"Clamp t to [0, 1] to restrict to the segment"
+	t := (t max: 0) min: 1.
+	
+	"Closest point on segment to P"
+	closestPoint := (v1 asPoint) + (vectSegment * t).
+	distance := (aGPoint asPoint) distanceTo: closestPoint.
+	
+	^distance
+	
+	
+	
 ]
 
 { #category : #comparing }
