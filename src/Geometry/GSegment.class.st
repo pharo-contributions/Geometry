@@ -69,17 +69,25 @@ GSegment >> asGLine [
 { #category : #properties }
 GSegment >> distanceTo: aGPoint [
 
-	| ab ap t proj distance |
+	| vectSegment vectPoint t distance closestPoint|
+
+	"See:https://paulbourke.net/geometry/pointlineplane/
+	and: https://gist.github.com/mattdesl/47412d930dcd8cd765c871a65532ffac"
 
 	distance := SmallInteger maxVal.
-	ab := (v2 asPoint) - (v1 asPoint).
-	ab isZero ifTrue:[ ^distance ].
-	ap := (aGPoint asPoint) - (v1 asPoint).
-	t := (ab dotProduct: ap) / (ab dotProduct: ab).
+	
+	"Vector from v1 to v2"
+	vectSegment := (v2 asPoint) - (v1 asPoint).
+	vectSegment isZero ifTrue:[ ^distance ].
+	"Vector from v1 to P"
+	vectPoint := (aGPoint asPoint) - (v1 asPoint).
+	t := (vectSegment dotProduct: vectPoint) / (vectSegment dotProduct: vectSegment).
+	"Clamp t to [0, 1] to restrict to the segment"
 	t := (t max: 0) min: 1.
 	
-	proj := (v1 asPoint) + (ab * t).
-	distance := (aGPoint asPoint) distanceTo: proj.
+	"Closest point on segment to P"
+	closestPoint := (v1 asPoint) + (vectSegment * t).
+	distance := (aGPoint asPoint) distanceTo: closestPoint.
 	
 	^distance
 	
