@@ -4,7 +4,7 @@ A baseline for Geometrypackage
 Class {
 	#name : #BaselineOfGeometry,
 	#superclass : #BaselineOf,
-	#category : 'BaselineOfGeometry'
+	#category : #BaselineOfGeometry
 }
 
 { #category : #baseline }
