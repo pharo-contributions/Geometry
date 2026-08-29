@@ -27,6 +27,28 @@ To add Geometry to your baseline just add this:
 
 Note that you can replace the v2.x.x tag by a branch as #master or #development or a tag as #v1.0.0, #v1.? or #v1.0.x or a commit SHA.
 
+## Quick start
+
+Once installed, the shapes are regular Smalltalk objects. Everything below is runnable in a Playground.
+
+```Smalltalk
+"Create some shapes"
+aPoint := GPoint x: 0 y: 0.
+aSegment := GSegment with: (GPoint x: 0 y: 0) with: (GPoint x: 3 y: 4).
+aCircle := GCircle center: (GPoint x: 0 y: 0) radius: 5.
+
+"Compute their intersections (answer is a collection of points)"
+aCircle intersectionsWith: aSegment.   "a Set(a GPoint(3,4))"
+aSegment intersectionsWith: aCircle.   "same result"
+
+"Test membership and query metrics"
+aCircle includes: (GPoint x: 3 y: 4).     "true: the point is on the circle"
+aCircle perimeter.                        "31.41592653589793"
+aSegment length.                          "5"
+```
+
+All elements share the same API (`includes:`, `intersectionsWith:`, `translateBy:`, `length`/`perimeter`/`area`, ...). The full guide, including a description of every shape, is in [resources/user_documentation.md](resources/user_documentation.md).
+
 ## Version management 
 
 This project use semantic versionning to define the releases. This mean that each stable release of the project will get associate a version number of the form `vX.Y.Z`. 
